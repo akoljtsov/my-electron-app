@@ -5,12 +5,10 @@ const userName = document.getElementById('user-name');
 const userEmail = document.getElementById('user-email');
 const userId = document.getElementById('user-id');
 
-// Збереження користувача в локальному сховищі
 function saveUser(user) {
     localStorage.setItem('user', JSON.stringify(user));
 }
 
-// Відображення користувача після логіну
 function showUser(user) {
     userPhoto.src = user.image;
     userName.textContent = `Name: ${user.firstName} ${user.lastName}`;
@@ -19,7 +17,6 @@ function showUser(user) {
     userInfoDiv.classList.remove('hidden');
 }
 
-// Перевірка, чи зберігався користувач у локальному сховищі
 function checkSavedUser() {
     const savedUser = localStorage.getItem('user');
     if (savedUser) {
@@ -28,7 +25,6 @@ function checkSavedUser() {
     }
 }
 
-// Функція для логіну користувача
 async function login(username, password) {
     try {
         const response = await fetch('https://dummyjson.com/auth/login', {
@@ -44,7 +40,6 @@ async function login(username, password) {
         const data = await response.json();
         
         if (data.token) {
-            // Отримати інформацію про користувача
             const userResponse = await fetch(`https://dummyjson.com/users/${data.id}`);
             const user = await userResponse.json();
             
@@ -58,7 +53,6 @@ async function login(username, password) {
     }
 }
 
-// Обробка події логіну
 loginForm.addEventListener('submit', (event) => {
     event.preventDefault();
     const username = document.getElementById('username').value;
@@ -66,5 +60,4 @@ loginForm.addEventListener('submit', (event) => {
     login(username, password);
 });
 
-// Перевірити, чи є збережений користувач при завантаженні сторінки
 checkSavedUser();
