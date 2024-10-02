@@ -15,6 +15,23 @@
             <input type="password" placeholder="Password" id="password" required>
             <button type="submit">Login</button>
         </form>
+        
+        <h2>CSV Management</h2>
+        <button id="open-csv">Open CSV</button>
+        <table id="data-table">
+            <thead>
+                <tr>
+                    <th>Select</th>
+                    <th>Column1</th>
+                    <th>Column2</th>
+                    <th>Column3</th>
+                </tr>
+            </thead>
+            <tbody id="table-body"></tbody>
+        </table>
+        <button id="save-csv">Save CSV</button>
+        <button id="delete-row">Delete Selected</button>
     </div>
+    <script src="renderer.js"></script>
 </body>
 </html>

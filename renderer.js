@@ -1,9 +1,18 @@
+const { ipcRenderer } = require('electron');
+
 const loginForm = document.getElementById('login-form');
 const userInfoDiv = document.getElementById('user-info');
 const userPhoto = document.getElementById('user-photo');
 const userName = document.getElementById('user-name');
 const userEmail = document.getElementById('user-email');
 const userId = document.getElementById('user-id');
+
+const openCsvButton = document.getElementById('open-csv');
+const saveCsvButton = document.getElementById('save-csv');
+const deleteRowButton = document.getElementById('delete-row');
+const tableBody = document.getElementById('table-body');
+
+let csvData = [];
 
 function saveUser(user) {
     localStorage.setItem('user', JSON.stringify(user));
@@ -61,3 +70,43 @@ loginForm.addEventListener('submit', (event) => {
 });
 
 checkSavedUser();
+
+openCsvButton.addEventListener('click', async () => {
+    const filePaths = await ipcRenderer.invoke('dialog:openFile');
+    if (filePaths.length > 0) {
+        const data = await ipcRenderer.invoke('file:readCsv', filePaths[0]);
+        csvData = data;
+        updateTable();
+    }
+});
+
+saveCsvButton.addEventListener('click', async () => {
+    const { filePath } = await ipcRenderer.invoke('dialog:saveFile');
+    if (filePath) {
+        await ipcRenderer.invoke('file:writeCsv', csvData, filePath);
+    }
+});
+
+deleteRowButton.addEventListener('click', () => {
+    const checkboxes = document.querySelectorAll('.row-checkbox:checked');
+    checkboxes.forEach(checkbox => {
+        const row = checkbox.closest('tr');
+        const index = Array.from(tableBody.children).indexOf(row);
+        csvData.splice(index, 1);
+        tableBody.removeChild(row);
+    });
+});
+
+function updateTable() {
+    tableBody.innerHTML = '';
+    csvData.forEach((row, index) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td><input type="checkbox" class="row-checkbox"></td>
+            <td contenteditable="true">${row.Column1}</td>
+            <td contenteditable="true">${row.Column2}</td>
+            <td contenteditable="true">${row.Column3}</td>
+        `;
+        tableBody.appendChild(tr);
+    });
+}

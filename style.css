@@ -9,7 +9,7 @@ body {
 }
 
 .container {
-  width: 300px;
+  width: 400px; 
   padding: 20px;
   background-color: white;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -48,4 +48,52 @@ button {
 
 button:hover {
   background-color: #0056b3;
+}
+
+
+#csv-file {
+  margin: 10px 0;
+}
+
+#data-table {
+  width: 100%;
+  table-layout: fixed; 
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+#data-table th,
+#data-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+}
+
+#data-table th {
+  background-color: #f2f2f2;
+  text-align: center;
+}
+
+tr:hover {
+  background-color: #f1f1f1;
+}
+
+button.delete {
+  background-color: #dc3545;
+}
+
+button.delete:hover {
+  background-color: #c82333;
+}
+
+
+#data-table th, #data-table td {
+  min-width: 100px; 
+}
+
+#data-table td {
+  max-width: 150px; 
 }
